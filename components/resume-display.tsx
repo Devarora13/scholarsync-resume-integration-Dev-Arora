@@ -1,10 +1,11 @@
 "use client"
 
-import { useSelector } from "react-redux"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
 import { User, Mail, Phone, MapPin, Briefcase, GraduationCap, Code } from "lucide-react"
+import { useSelector } from "react-redux"
+
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import type { RootState } from "@/lib/store"
 
 export function ResumeDisplay() {

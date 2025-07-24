@@ -1,15 +1,15 @@
 "use client"
 
+import { Loader2, Search, CheckCircle, AlertCircle, GraduationCap } from "lucide-react"
 import type React from "react"
-
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useToast } from "@/hooks/use-toast"
-import { Loader2, Search, CheckCircle, AlertCircle, GraduationCap } from "lucide-react"
 import { setScholarData, setLoading, setError } from "@/lib/slices/scholar-slice"
 import type { RootState } from "@/lib/store"
 

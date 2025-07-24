@@ -4,7 +4,11 @@ import type { NextRequest } from "next/server"
 const rateLimitMap = new Map<string, { count: number; resetTime: number }>()
 
 export async function rateLimit(request: NextRequest, limit = 10, windowMs = 60000) {
-  const ip = request.ip || request.headers.get("x-forwarded-for") || "anonymous"
+  const clientId =
+    request.headers.get("x-forwarded-for")?.split(",")[0] ||
+    request.headers.get("x-real-ip") ||
+    request.headers.get("cf-connecting-ip") ||
+    "anonymous"
   const now = Date.now()
   const windowStart = now - windowMs
 
@@ -15,15 +19,15 @@ export async function rateLimit(request: NextRequest, limit = 10, windowMs = 600
     }
   }
 
-  const current = rateLimitMap.get(ip)
+  const current = rateLimitMap.get(clientId)
 
   if (!current) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
+    rateLimitMap.set(clientId, { count: 1, resetTime: now + windowMs })
     return { success: true, remaining: limit - 1 }
   }
 
   if (current.resetTime < now) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + windowMs })
+    rateLimitMap.set(clientId, { count: 1, resetTime: now + windowMs })
     return { success: true, remaining: limit - 1 }
   }
 

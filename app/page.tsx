@@ -1,16 +1,17 @@
 "use client"
-import { Provider } from "react-redux"
-import { store } from "@/lib/store"
-import { Header } from "@/components/header"
-import { ResumeUploader } from "@/components/resume-uploader"
-import { ScholarProfileInput } from "@/components/scholar-profile-input"
-import { ResumeDisplay } from "@/components/resume-display"
-import { ScholarDisplay } from "@/components/scholar-display"
-import { ProjectSuggestions } from "@/components/project-suggestions"
-import { Toaster } from "@/components/ui/toaster"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileText, GraduationCap, Lightbulb, Upload } from "lucide-react"
+import { Provider } from "react-redux"
+
+import { Header } from "@/components/header"
+import { ProjectSuggestions } from "@/components/project-suggestions"
+import { ResumeDisplay } from "@/components/resume-display"
+import { ResumeUploader } from "@/components/resume-uploader"
+import { ScholarDisplay } from "@/components/scholar-display"
+import { ScholarProfileInput } from "@/components/scholar-profile-input"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Toaster } from "@/components/ui/toaster"
+import { store } from "@/lib/store"
 
 export default function HomePage() {
   return (

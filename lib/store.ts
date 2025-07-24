@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit"
+
 import resumeReducer from "./slices/resume-slice"
 import scholarReducer from "./slices/scholar-slice"
 import suggestionsReducer from "./slices/suggestions-slice"

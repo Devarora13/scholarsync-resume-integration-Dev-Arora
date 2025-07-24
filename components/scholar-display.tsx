@@ -1,11 +1,12 @@
 "use client"
 
-import { useSelector } from "react-redux"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { GraduationCap, FileText, Quote, TrendingUp, Calendar, AlertTriangle } from "lucide-react"
+import { useSelector } from "react-redux"
+
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Badge } from "@/components/ui/badge"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Separator } from "@/components/ui/separator"
 import type { RootState } from "@/lib/store"
 
 export function ScholarDisplay() {
@@ -48,9 +49,7 @@ export function ScholarDisplay() {
       {(data as any).warning && (
         <Alert>
           <AlertTriangle className="h-4 w-4" />
-          <AlertDescription>
-            {(data as any).warning}
-          </AlertDescription>
+          <AlertDescription>{(data as any).warning}</AlertDescription>
         </Alert>
       )}
 

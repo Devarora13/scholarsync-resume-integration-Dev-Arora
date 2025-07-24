@@ -1,6 +1,3 @@
-import { Github, ExternalLink } from "lucide-react"
-import { Button } from "@/components/ui/button"
-
 export function Header() {
   return (
     <header className="border-b bg-white/80 backdrop-blur-sm sticky top-0 z-50">
@@ -10,21 +7,6 @@ export function Header() {
             <span className="text-white font-bold text-sm">SS</span>
           </div>
           <h1 className="text-xl font-bold text-gray-900">ScholarSync</h1>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <Button variant="outline" size="sm" asChild>
-            <a href="https://github.com" target="_blank" rel="noopener noreferrer">
-              <Github className="w-4 h-4 mr-2" />
-              GitHub
-            </a>
-          </Button>
-          <Button variant="outline" size="sm" asChild>
-            <a href="#" target="_blank" rel="noopener noreferrer">
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Live Demo
-            </a>
-          </Button>
         </div>
       </div>
     </header>

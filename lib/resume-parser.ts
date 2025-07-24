@@ -1,4 +1,4 @@
-import mammoth from 'mammoth'
+import mammoth from "mammoth"
 
 interface ParsedResumeData {
   name: string
@@ -24,14 +24,67 @@ export class ResumeParser {
   private static readonly emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g
   private static readonly phoneRegex = /(\+?1?[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})/g
   private static readonly skillsKeywords = [
-    'JavaScript', 'TypeScript', 'Python', 'Java', 'C++', 'C#', 'React', 'Vue', 'Angular',
-    'Node.js', 'Express', 'Next.js', 'Django', 'Flask', 'Spring', 'SQL', 'MongoDB', 'PostgreSQL',
-    'MySQL', 'Redis', 'Docker', 'Kubernetes', 'AWS', 'Azure', 'GCP', 'Git', 'Linux', 'HTML',
-    'CSS', 'Sass', 'Less', 'Webpack', 'Vite', 'Jest', 'Cypress', 'Selenium', 'GraphQL', 'REST',
-    'API', 'Microservices', 'Machine Learning', 'Deep Learning', 'TensorFlow', 'PyTorch',
-    'Scikit-learn', 'Pandas', 'NumPy', 'Data Analysis', 'Data Science', 'Artificial Intelligence',
-    'Computer Vision', 'Natural Language Processing', 'NLP', 'DevOps', 'CI/CD', 'Jenkins',
-    'Terraform', 'Ansible', 'Agile', 'Scrum', 'Project Management'
+    "JavaScript",
+    "TypeScript",
+    "Python",
+    "Java",
+    "C++",
+    "C#",
+    "React",
+    "Vue",
+    "Angular",
+    "Node.js",
+    "Express",
+    "Next.js",
+    "Django",
+    "Flask",
+    "Spring",
+    "SQL",
+    "MongoDB",
+    "PostgreSQL",
+    "MySQL",
+    "Redis",
+    "Docker",
+    "Kubernetes",
+    "AWS",
+    "Azure",
+    "GCP",
+    "Git",
+    "Linux",
+    "HTML",
+    "CSS",
+    "Sass",
+    "Less",
+    "Webpack",
+    "Vite",
+    "Jest",
+    "Cypress",
+    "Selenium",
+    "GraphQL",
+    "REST",
+    "API",
+    "Microservices",
+    "Machine Learning",
+    "Deep Learning",
+    "TensorFlow",
+    "PyTorch",
+    "Scikit-learn",
+    "Pandas",
+    "NumPy",
+    "Data Analysis",
+    "Data Science",
+    "Artificial Intelligence",
+    "Computer Vision",
+    "Natural Language Processing",
+    "NLP",
+    "DevOps",
+    "CI/CD",
+    "Jenkins",
+    "Terraform",
+    "Ansible",
+    "Agile",
+    "Scrum",
+    "Project Management",
   ]
 
   /**
@@ -40,17 +93,19 @@ export class ResumeParser {
   static async parseFile(file: File): Promise<ParsedResumeData> {
     const buffer = await file.arrayBuffer()
     let text: string
-    if (file.type === 'application/pdf') {
+    if (file.type === "application/pdf") {
       text = await this.parsePDF(buffer)
-    } else if (file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+    } else if (file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
       text = await this.parseDOCX(buffer)
     } else {
-      throw new Error('Unsupported file type. Please upload PDF or DOCX files only.')
+      throw new Error("Unsupported file type. Please upload PDF or DOCX files only.")
     }
 
     // Improved line splitting for PDFs
-    const lines = text.split(/\r?\n|\r| {2,}/g).map(l => l.trim()).filter(Boolean)
-    
+    const lines = text
+      .split(/\r?\n|\r| {2,}/g)
+      .map((l) => l.trim())
+      .filter(Boolean)
 
     return this.extractInformation(text, lines)
   }
@@ -60,11 +115,11 @@ export class ResumeParser {
    */
   private static async parsePDF(buffer: ArrayBuffer): Promise<string> {
     try {
-      const pdfParse = await import('pdf-parse')
+      const pdfParse = await import("pdf-parse")
       const data = await pdfParse.default(Buffer.from(buffer))
       return data.text
-    } catch (error) {
-      throw new Error('Failed to parse PDF file. Please ensure the file is not corrupted.')
+    } catch {
+      throw new Error("Failed to parse PDF file. Please ensure the file is not corrupted.")
     }
   }
 
@@ -75,8 +130,8 @@ export class ResumeParser {
     try {
       const result = await mammoth.extractRawText({ buffer: Buffer.from(buffer) })
       return result.value
-    } catch (error) {
-      throw new Error('Failed to parse DOCX file. Please ensure the file is not corrupted.')
+    } catch {
+      throw new Error("Failed to parse DOCX file. Please ensure the file is not corrupted.")
     }
   }
 
@@ -91,7 +146,7 @@ export class ResumeParser {
       location: this.extractLocation(lines),
       skills: this.extractSkills(text),
       experience: this.extractExperience(lines, text),
-      education: this.extractEducation(lines, text)
+      education: this.extractEducation(lines, text),
     }
   }
 
@@ -104,29 +159,32 @@ export class ResumeParser {
       if (
         l.length > 2 &&
         l.length < 60 &&
-        !this.emailRegex.test(l) && 
+        !this.emailRegex.test(l) &&
         !this.phoneRegex.test(l) &&
-        !l.toLowerCase().includes('resume') &&
-        !l.toLowerCase().includes('cv') &&
-        !l.toLowerCase().includes('curriculum vitae') &&
-        !l.toLowerCase().includes('profile') &&
-        !l.toLowerCase().includes('objective') &&
-        !l.toLowerCase().includes('summary') &&
-        !l.toLowerCase().includes('contact') &&
-        !l.includes('http') && !l.includes('www') && !l.includes('@') &&
-        l.split(' ').length >= 2 && l.split(' ').length <= 4 &&
-        /^[A-Za-z\s\.'-]+$/.test(l)
+        !l.toLowerCase().includes("resume") &&
+        !l.toLowerCase().includes("cv") &&
+        !l.toLowerCase().includes("curriculum vitae") &&
+        !l.toLowerCase().includes("profile") &&
+        !l.toLowerCase().includes("objective") &&
+        !l.toLowerCase().includes("summary") &&
+        !l.toLowerCase().includes("contact") &&
+        !l.includes("http") &&
+        !l.includes("www") &&
+        !l.includes("@") &&
+        l.split(" ").length >= 2 &&
+        l.split(" ").length <= 4 &&
+        /^[A-Za-z\s.'-]+$/.test(l)
       ) {
         return l
       }
     }
     for (const l of lines) {
-      const m = l.match(/(?:name|full name)[:\s]+([A-Za-z\s\.'-]+)/i)
+      const m = l.match(/(?:name|full name)[:\s]+([A-Za-z\s.'-]+)/i)
       if (m && m[1].trim().length > 2) {
         return m[1].trim()
       }
     }
-    return 'Name not found'
+    return "Name not found"
   }
 
   /**
@@ -149,10 +207,10 @@ export class ResumeParser {
    * Simple location pattern based on common address/keywords
    */
   private static extractLocation(lines: string[]): string | undefined {
-    const locationKeywords = ['street', 'avenue', 'drive', 'road', 'city', 'state', 'zip', 'country']
+    const locationKeywords = ["street", "avenue", "drive", "road", "city", "state", "zip", "country"]
     for (const l of lines) {
       const lower = l.toLowerCase()
-      if (locationKeywords.some(k => lower.includes(k)) || /\b\d{5}(-\d{4})?\b/.test(l)) {
+      if (locationKeywords.some((k) => lower.includes(k)) || /\b\d{5}(-\d{4})?\b/.test(l)) {
         return l
       }
     }
@@ -182,20 +240,23 @@ export class ResumeParser {
 
     // Additional patterns for comma/bullet/semicolon lists
     const skillPatterns = [
-      /(?:skills?|technologies?|programming languages?|frameworks?|tools?|databases?)[:\s]+([^\.]+?)(?:\n\n|\n[A-Z]|$)/gi,
+      /(?:skills?|technologies?|programming languages?|frameworks?|tools?|databases?)[:\s]+([^.]+?)(?:\n\n|\n[A-Z]|$)/gi,
       /•\s*([A-Za-z][^•\n]+)/g,
       /-\s*([A-Za-z][^-\n]+)/g,
-      /\*\s*([A-Za-z][^*\n]+)/g
+      /\*\s*([A-Za-z][^*\n]+)/g,
     ]
     for (const pattern of skillPatterns) {
       const matches = skillsText.matchAll(pattern)
       for (const match of matches) {
         const skillsList = match[1].split(/[,;|\n]/)
         for (const skill of skillsList) {
-          const cleanSkill = skill.trim().replace(/[•\-*\(\)]/g, '')
-          if (cleanSkill.length > 1 && cleanSkill.length < 30 && 
-              !cleanSkill.toLowerCase().includes('experience') &&
-              !cleanSkill.toLowerCase().includes('years')) {
+          const cleanSkill = skill.trim().replace(/[•\-*()]/g, "")
+          if (
+            cleanSkill.length > 1 &&
+            cleanSkill.length < 30 &&
+            !cleanSkill.toLowerCase().includes("experience") &&
+            !cleanSkill.toLowerCase().includes("years")
+          ) {
             found.add(cleanSkill)
           }
         }
@@ -208,10 +269,15 @@ export class ResumeParser {
    * Section header matcher (case-insensitive, trims, allows colon, all-caps)
    */
   private static isSectionHeader(line: string, keywords: string[]): boolean {
-    const clean = line.replace(/[:\s]+$/,'').trim().toLowerCase()
-    return keywords.some(kw => clean === kw) ||
-      keywords.some(kw => line.toUpperCase() === kw.toUpperCase()) ||
-      keywords.some(kw => clean.includes(kw))
+    const clean = line
+      .replace(/[:\s]+$/, "")
+      .trim()
+      .toLowerCase()
+    return (
+      keywords.some((kw) => clean === kw) ||
+      keywords.some((kw) => line.toUpperCase() === kw.toUpperCase()) ||
+      keywords.some((kw) => clean.includes(kw))
+    )
   }
 
   /**
@@ -239,25 +305,30 @@ export class ResumeParser {
   /**
    * Extract work experience section — robust for PDFs!
    */
-  private static extractExperience(lines: string[], fullText: string): Array<{
+  private static extractExperience(
+    lines: string[],
+    fullText: string
+  ): Array<{
     position: string
     company: string
     duration: string
     description?: string
   }> {
-    const sectionKeywords = [
-      'experience', 'work experience', 'professional experience', 'employment', 'work history'
-    ]
-    const nextSection = [
-      'education', 'skills', 'projects', 'awards', 'certifications', 'references', 'languages'
-    ]
+    const sectionKeywords = ["experience", "work experience", "professional experience", "employment", "work history"]
+    const nextSection = ["education", "skills", "projects", "awards", "certifications", "references", "languages"]
     let experienceLines = this.extractSection(lines, sectionKeywords, nextSection)
     // If not found, fallback: extract as block with regex from text
     if (experienceLines.length === 0) {
-      const rx = new RegExp('(?:EXPERIENCE|WORK EXPERIENCE|PROFESSIONAL EXPERIENCE)[\\s:]*([\\s\\S]*?)(?:EDUCATION|SKILLS|PROJECTS|AWARDS|CERTIFICATES|$)', 'i')
+      const rx = new RegExp(
+        "(?:EXPERIENCE|WORK EXPERIENCE|PROFESSIONAL EXPERIENCE)[\\s:]*([\\s\\S]*?)(?:EDUCATION|SKILLS|PROJECTS|AWARDS|CERTIFICATES|$)",
+        "i"
+      )
       const m = fullText.match(rx)
       if (m && m[1]) {
-        experienceLines = m[1].split(/\r?\n|\r| {2,}/g).map(l => l.trim()).filter(Boolean)
+        experienceLines = m[1]
+          .split(/\r?\n|\r| {2,}/g)
+          .map((l) => l.trim())
+          .filter(Boolean)
       }
     }
 
@@ -269,55 +340,64 @@ export class ResumeParser {
       const line = experienceLines[i].trim()
       if (!line) continue
       // New job: has date or title pattern
-      const datePattern = /(20\d{2}|19\d{2}|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b.*?20\d{2}|\bpresent\b|\bcurrent\b)/i
+      const datePattern =
+        /(20\d{2}|19\d{2}|\b(jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\b.*?20\d{2}|\bpresent\b|\bcurrent\b)/i
       const hasDate = datePattern.test(line)
-      const nextLine = i + 1 < experienceLines.length ? experienceLines[i + 1] : ''
-      const isJobTitle = hasDate || (
-        line.length > 5 && line.length < 100 &&
-        !line.startsWith('•') && !line.startsWith('-') && !line.startsWith('*') &&
-        (nextLine.toLowerCase().includes('company') ||
-          nextLine.toLowerCase().includes('corp') ||
-          nextLine.toLowerCase().includes('inc') ||
-          nextLine.toLowerCase().includes('ltd') ||
-          nextLine.includes('|') || nextLine.includes('-'))
-      )
+      const nextLine = i + 1 < experienceLines.length ? experienceLines[i + 1] : ""
+      const isJobTitle =
+        hasDate ||
+        (line.length > 5 &&
+          line.length < 100 &&
+          !line.startsWith("•") &&
+          !line.startsWith("-") &&
+          !line.startsWith("*") &&
+          (nextLine.toLowerCase().includes("company") ||
+            nextLine.toLowerCase().includes("corp") ||
+            nextLine.toLowerCase().includes("inc") ||
+            nextLine.toLowerCase().includes("ltd") ||
+            nextLine.includes("|") ||
+            nextLine.includes("-")))
       if (isJobTitle) {
         if (currentJob) {
-          if (jobDescription.length > 0) currentJob.description = jobDescription.join(' ').trim()
+          if (jobDescription.length > 0) currentJob.description = jobDescription.join(" ").trim()
           experience.push(currentJob)
           jobDescription = []
         }
-        let position = '', company = '', duration = ''
-        if (line.includes('|')) {
-          const parts = line.split('|').map(p => p.trim())
-          position = parts[0] || ''
-          company = parts[1] || ''
-          duration = this.extractDuration(line) || parts[2] || ''
-        } else if (line.includes(' - ') && hasDate) {
-          const parts = line.split(' - ')
+        let position = "",
+          company = "",
+          duration = ""
+        if (line.includes("|")) {
+          const parts = line.split("|").map((p) => p.trim())
+          position = parts[0] || ""
+          company = parts[1] || ""
+          duration = this.extractDuration(line) || parts[2] || ""
+        } else if (line.includes(" - ") && hasDate) {
+          const parts = line.split(" - ")
           position = parts[0].trim()
-          duration = this.extractDuration(line) || ''
-          company = parts[1]?.replace(duration, '').trim() || ''
+          duration = this.extractDuration(line) || ""
+          company = parts[1]?.replace(duration, "").trim() || ""
         } else {
           position = line
           if (i + 1 < experienceLines.length) {
             company = experienceLines[i + 1].trim()
             i++
           }
-          duration = this.extractDuration(position + ' ' + company) || ''
+          duration = this.extractDuration(`${position} ${company}`) || ""
         }
         currentJob = {
-          position: position || 'Position not specified',
-          company: company || 'Company not specified',
-          duration: duration || 'Duration not specified'
+          position: position || "Position not specified",
+          company: company || "Company not specified",
+          duration: duration || "Duration not specified",
         }
-      } else if (currentJob && (line.startsWith('•') || line.startsWith('-') || line.startsWith('*') ||
-        (line.length > 20 && !hasDate))) {
-        jobDescription.push(line.replace(/^[•\-*]\s*/, ''))
+      } else if (
+        currentJob &&
+        (line.startsWith("•") || line.startsWith("-") || line.startsWith("*") || (line.length > 20 && !hasDate))
+      ) {
+        jobDescription.push(line.replace(/^[•\-*]\s*/, ""))
       }
     }
     if (currentJob) {
-      if (jobDescription.length > 0) currentJob.description = jobDescription.join(' ').trim()
+      if (jobDescription.length > 0) currentJob.description = jobDescription.join(" ").trim()
       experience.push(currentJob)
     }
     return experience.slice(0, 10)
@@ -326,24 +406,29 @@ export class ResumeParser {
   /**
    * Extract education section — robust for PDFs!
    */
-  private static extractEducation(lines: string[], fullText: string): Array<{
+  private static extractEducation(
+    lines: string[],
+    fullText: string
+  ): Array<{
     degree: string
     institution: string
     year: string
     gpa?: string
   }> {
-    const sectionKeywords = [
-      'education', 'academic', 'qualifications', 'university', 'college', 'degree'
-    ]
-    const nextSection = [
-      'experience', 'skills', 'projects', 'awards', 'certifications', 'references', 'languages'
-    ]
+    const sectionKeywords = ["education", "academic", "qualifications", "university", "college", "degree"]
+    const nextSection = ["experience", "skills", "projects", "awards", "certifications", "references", "languages"]
     let educationLines = this.extractSection(lines, sectionKeywords, nextSection)
     if (educationLines.length === 0) {
-      const rx = new RegExp('(?:EDUCATION|QUALIFICATIONS|UNIVERSITY|COLLEGE)[\\s:]*([\\s\\S]*?)(?:EXPERIENCE|SKILLS|PROJECTS|AWARDS|CERTIFICATES|$)', 'i')
+      const rx = new RegExp(
+        "(?:EDUCATION|QUALIFICATIONS|UNIVERSITY|COLLEGE)[\\s:]*([\\s\\S]*?)(?:EXPERIENCE|SKILLS|PROJECTS|AWARDS|CERTIFICATES|$)",
+        "i"
+      )
       const m = fullText.match(rx)
       if (m && m[1]) {
-        educationLines = m[1].split(/\r?\n|\r| {2,}/g).map(l => l.trim()).filter(Boolean)
+        educationLines = m[1]
+          .split(/\r?\n|\r| {2,}/g)
+          .map((l) => l.trim())
+          .filter(Boolean)
       }
     }
 
@@ -353,40 +438,58 @@ export class ResumeParser {
       if (!line || line.length < 5) continue
       const yearMatch = line.match(/\b(20\d{2}|19\d{2})\b/)
       const gpaMatch = line.match(/gpa[:\s]+(\d+\.?\d*)/i)
-      const degreeKeywords = ['bachelor', 'master', 'phd', 'doctorate', 'associate', 'diploma', 'certificate',
-        'b.s.', 'b.a.', 'm.s.', 'm.a.', 'b.tech', 'm.tech', 'b.e.', 'm.e.']
-      const hasDegree = degreeKeywords.some(keyword => line.toLowerCase().includes(keyword))
-      const institutionKeywords = ['university', 'college', 'institute', 'school', 'academy']
-      const hasInstitution = institutionKeywords.some(keyword => line.toLowerCase().includes(keyword))
+      const degreeKeywords = [
+        "bachelor",
+        "master",
+        "phd",
+        "doctorate",
+        "associate",
+        "diploma",
+        "certificate",
+        "b.s.",
+        "b.a.",
+        "m.s.",
+        "m.a.",
+        "b.tech",
+        "m.tech",
+        "b.e.",
+        "m.e.",
+      ]
+      const hasDegree = degreeKeywords.some((keyword) => line.toLowerCase().includes(keyword))
+      const institutionKeywords = ["university", "college", "institute", "school", "academy"]
+      const hasInstitution = institutionKeywords.some((keyword) => line.toLowerCase().includes(keyword))
       if (yearMatch || hasDegree || hasInstitution) {
-        let degree = '', institution = '', year = '', gpa = ''
-        if (line.includes('|')) {
-          const parts = line.split('|').map(p => p.trim())
-          degree = parts[0] || ''
-          institution = parts[1] || ''
-          year = yearMatch ? yearMatch[0] : ''
-        } else if (line.includes(' - ')) {
-          const parts = line.split(' - ').map(p => p.trim())
-          degree = parts[0] || ''
-          institution = parts[1] || ''
-          year = yearMatch ? yearMatch[0] : ''
+        let degree = "",
+          institution = "",
+          year = "",
+          gpa = ""
+        if (line.includes("|")) {
+          const parts = line.split("|").map((p) => p.trim())
+          degree = parts[0] || ""
+          institution = parts[1] || ""
+          year = yearMatch ? yearMatch[0] : ""
+        } else if (line.includes(" - ")) {
+          const parts = line.split(" - ").map((p) => p.trim())
+          degree = parts[0] || ""
+          institution = parts[1] || ""
+          year = yearMatch ? yearMatch[0] : ""
         } else {
           if (hasDegree) {
             degree = line
-            year = yearMatch ? yearMatch[0] : ''
+            year = yearMatch ? yearMatch[0] : ""
             if (i + 1 < educationLines.length) {
               const nextLine = educationLines[i + 1].trim()
-              if (institutionKeywords.some(keyword => nextLine.toLowerCase().includes(keyword))) {
+              if (institutionKeywords.some((keyword) => nextLine.toLowerCase().includes(keyword))) {
                 institution = nextLine
                 i++
               }
             }
           } else if (hasInstitution) {
             institution = line
-            year = yearMatch ? yearMatch[0] : ''
+            year = yearMatch ? yearMatch[0] : ""
             if (i > 0) {
               const prevLine = educationLines[i - 1].trim()
-              if (degreeKeywords.some(keyword => prevLine.toLowerCase().includes(keyword))) {
+              if (degreeKeywords.some((keyword) => prevLine.toLowerCase().includes(keyword))) {
                 degree = prevLine
               }
             }
@@ -395,16 +498,17 @@ export class ResumeParser {
         if (gpaMatch) gpa = gpaMatch[1]
         if (degree || institution || year) {
           education.push({
-            degree: degree || 'Degree not specified',
-            institution: institution || 'Institution not specified',
-            year: year || 'Year not specified',
-            gpa: gpa || undefined
+            degree: degree || "Degree not specified",
+            institution: institution || "Institution not specified",
+            year: year || "Year not specified",
+            gpa: gpa || undefined,
           })
         }
       }
     }
-    const uniqueEducation = education.filter((edu, index, self) =>
-      index === self.findIndex(e => e.degree === edu.degree && e.institution === edu.institution)
+    const uniqueEducation = education.filter(
+      (edu, index, self) =>
+        index === self.findIndex((e) => e.degree === edu.degree && e.institution === edu.institution)
     )
     return uniqueEducation.slice(0, 5)
   }
@@ -413,10 +517,11 @@ export class ResumeParser {
    * Extracts "Jan 2021 - Present", etc.
    */
   private static extractDuration(line: string): string | undefined {
-    const datePattern = /(\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s+\d{4}\b|\b\d{4}\b|\bpresent\b|\bcurrent\b)/gi
+    const datePattern =
+      /(\b(?:jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)\s+\d{4}\b|\b\d{4}\b|\bpresent\b|\bcurrent\b)/gi
     const dates = line.match(datePattern)
     if (dates && dates.length >= 1) {
-      return dates.join(' - ')
+      return dates.join(" - ")
     }
     return undefined
   }

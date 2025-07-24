@@ -1,17 +1,17 @@
 "use client"
 
+import { Lightbulb, ExternalLink, Star, Clock, Users, AlertCircle, Loader2, RefreshCw, CheckCircle } from "lucide-react"
 import { useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useToast } from "@/hooks/use-toast"
-import { Lightbulb, ExternalLink, Star, Clock, Users, AlertCircle, Loader2, RefreshCw } from "lucide-react"
 import { setSuggestions, setLoading, setError } from "@/lib/slices/suggestions-slice"
 import type { RootState } from "@/lib/store"
-import { CheckCircle } from "lucide-react"
 
 // Skeleton component for project suggestions
 function ProjectSuggestionSkeleton() {

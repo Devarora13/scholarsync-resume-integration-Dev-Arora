@@ -1,11 +1,12 @@
-import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
-import './globals.css'
+import { GeistMono } from "geist/font/mono"
+import { GeistSans } from "geist/font/sans"
+import type { Metadata } from "next"
+import React from "react"
+import "./globals.css"
 
 export const metadata: Metadata = {
-  title: 'ScholarSync',
-  description: 'A project suggestion tool for scholars'
+  title: "ScholarSync",
+  description: "A project suggestion tool for scholars",
 }
 
 export default function RootLayout({

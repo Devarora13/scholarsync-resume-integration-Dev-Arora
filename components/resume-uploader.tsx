@@ -1,13 +1,14 @@
 "use client"
 
+import { Upload, FileText, X, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { useState, useCallback } from "react"
-import { useDispatch, useSelector } from "react-redux"
 import { useDropzone } from "react-dropzone"
+import { useDispatch, useSelector } from "react-redux"
+
+import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Button } from "@/components/ui/button"
 import { Progress } from "@/components/ui/progress"
-import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useToast } from "@/hooks/use-toast"
-import { Upload, FileText, X, CheckCircle, AlertCircle, Loader2 } from "lucide-react"
 import { setResumeData, setLoading, setError } from "@/lib/slices/resume-slice"
 import type { RootState } from "@/lib/store"
 
@@ -105,7 +106,7 @@ export function ResumeUploader() {
         setTimeout(() => setUploadProgress(0), 1000)
       }
     },
-    [dispatch, toast],
+    [dispatch, toast]
   )
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({

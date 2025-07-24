@@ -10,14 +10,14 @@ const nextConfig = {
     unoptimized: true,
   },
   experimental: {
-    serverComponentsExternalPackages: ['pdf-parse', 'cheerio'],
+    serverComponentsExternalPackages: ["pdf-parse", "cheerio"],
   },
   webpack: (config, { isServer }) => {
     if (isServer) {
       config.externals = config.externals || []
       config.externals.push({
-        'pdf-parse': 'commonjs pdf-parse',
-        'cheerio': 'commonjs cheerio'
+        "pdf-parse": "commonjs pdf-parse",
+        cheerio: "commonjs cheerio",
       })
     }
     return config
