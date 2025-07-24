@@ -1,13 +1,13 @@
-const js = require("@eslint/js");
-const typescript = require("@typescript-eslint/eslint-plugin");
-const typescriptParser = require("@typescript-eslint/parser");
-const react = require("eslint-plugin-react");
-const reactHooks = require("eslint-plugin-react-hooks");
-const jsxA11y = require("eslint-plugin-jsx-a11y");
-const importPlugin = require("eslint-plugin-import");
-const prettier = require("eslint-plugin-prettier");
-const prettierConfig = require("eslint-config-prettier");
-const nextPlugin = require("@next/eslint-plugin-next");
+const js = require("@eslint/js")
+const typescript = require("@typescript-eslint/eslint-plugin")
+const typescriptParser = require("@typescript-eslint/parser")
+const react = require("eslint-plugin-react")
+const reactHooks = require("eslint-plugin-react-hooks")
+const jsxA11y = require("eslint-plugin-jsx-a11y")
+const importPlugin = require("eslint-plugin-import")
+const prettier = require("eslint-plugin-prettier")
+const prettierConfig = require("eslint-config-prettier")
+const nextPlugin = require("@next/eslint-plugin-next")
 
 module.exports = [
   {
@@ -202,7 +202,7 @@ module.exports = [
 
       // Added rules to allow require() style imports in test files:
       "@typescript-eslint/no-require-imports": "off",
-      "@typescript-eslint/no-var-requires": "off"
+      "@typescript-eslint/no-var-requires": "off",
     },
   },
   {
@@ -228,4 +228,4 @@ module.exports = [
       "postcss.config.mjs",
     ],
   },
-];
+]

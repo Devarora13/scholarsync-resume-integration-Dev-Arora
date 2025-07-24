@@ -114,3 +114,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Failed to parse resume" }, { status: 500 })
   }
 }
+
+export default async function handler(request: NextRequest) {
+  switch (request.method) {
+    case 'POST':
+      return POST(request)
+    default:
+      return NextResponse.json({ error: 'Method Not Allowed' }, { status: 405 })
+  }
+}
+

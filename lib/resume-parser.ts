@@ -153,7 +153,11 @@ export class ResumeParser {
   /**
    * Tries to find the user's name (1st real line, or "Name: ...")
    */
-  private static extractName(lines: string[]): string {
+  private static extractName(lines: string[] | undefined): string {
+    if (!Array.isArray(lines) || lines.length === 0) {
+      return "Name not found"
+    }
+
     for (let i = 0; i < Math.min(lines.length, 10); i++) {
       const l = lines[i].trim()
       if (
@@ -178,12 +182,14 @@ export class ResumeParser {
         return l
       }
     }
+
     for (const l of lines) {
       const m = l.match(/(?:name|full name)[:\s]+([A-Za-z\s.'-]+)/i)
       if (m && m[1].trim().length > 2) {
         return m[1].trim()
       }
     }
+
     return "Name not found"
   }
 
@@ -200,20 +206,26 @@ export class ResumeParser {
    */
   private static extractPhone(text: string): string | undefined {
     const matches = text.match(this.phoneRegex)
-    return matches ? matches[0] : undefined
+    return matches ? matches[0].trim() : undefined
   }
 
   /**
    * Simple location pattern based on common address/keywords
    */
-  private static extractLocation(lines: string[]): string | undefined {
+  private static extractLocation(lines: string[] | undefined): string | undefined {
+    if (!Array.isArray(lines)) {
+      return undefined
+    }
+
     const locationKeywords = ["street", "avenue", "drive", "road", "city", "state", "zip", "country"]
+
     for (const l of lines) {
       const lower = l.toLowerCase()
       if (locationKeywords.some((k) => lower.includes(k)) || /\b\d{5}(-\d{4})?\b/.test(l)) {
         return l
       }
     }
+
     return undefined
   }
 
@@ -283,7 +295,8 @@ export class ResumeParser {
   /**
    * Extract a section block by heading (robust against PDF line mess)
    */
-  private static extractSection(lines: string[], keywords: string[], nextKeywords: string[]): string[] {
+  private static extractSection(lines: string[] | undefined, keywords: string[], nextKeywords: string[]): string[] {
+    if (!Array.isArray(lines) || lines.length === 0) return []
     let sectionStart = -1
     let sectionEnd = -1
     for (let i = 0; i < lines.length; i++) {
@@ -306,7 +319,7 @@ export class ResumeParser {
    * Extract work experience section — robust for PDFs!
    */
   private static extractExperience(
-    lines: string[],
+    lines: string[] | undefined,
     fullText: string
   ): Array<{
     position: string
@@ -314,9 +327,12 @@ export class ResumeParser {
     duration: string
     description?: string
   }> {
+    if (!Array.isArray(lines)) lines = []
+
     const sectionKeywords = ["experience", "work experience", "professional experience", "employment", "work history"]
     const nextSection = ["education", "skills", "projects", "awards", "certifications", "references", "languages"]
     let experienceLines = this.extractSection(lines, sectionKeywords, nextSection)
+
     // If not found, fallback: extract as block with regex from text
     if (experienceLines.length === 0) {
       const rx = new RegExp(
@@ -332,7 +348,6 @@ export class ResumeParser {
       }
     }
 
-    // Your original parsing logic (slightly tweaked)
     const experience: any[] = []
     let currentJob: any = null
     let jobDescription: string[] = []
@@ -407,7 +422,7 @@ export class ResumeParser {
    * Extract education section — robust for PDFs!
    */
   private static extractEducation(
-    lines: string[],
+    lines: string[] | undefined,
     fullText: string
   ): Array<{
     degree: string
@@ -415,6 +430,8 @@ export class ResumeParser {
     year: string
     gpa?: string
   }> {
+    if (!Array.isArray(lines)) lines = []
+
     const sectionKeywords = ["education", "academic", "qualifications", "university", "college", "degree"]
     const nextSection = ["experience", "skills", "projects", "awards", "certifications", "references", "languages"]
     let educationLines = this.extractSection(lines, sectionKeywords, nextSection)

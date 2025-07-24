@@ -1,0 +1,22 @@
+{
+  "name": "Dr. Jane Smith",
+  "affiliation": "MIT",
+  "citations": 1250,
+  "hIndex": 15,
+  "publications": [
+    {
+      "title": "Machine Learning Approaches in Computer Vision",
+      "year": "2023",
+      "citations": 45,
+      "venue": "IEEE Conference on Computer Vision"
+    },
+    {
+      "title": "Deep Learning for Natural Language Processing",
+      "year": "2022",
+      "citations": 78,
+      "venue": "ACL 2022"
+    }
+  ],
+  "coAuthors": ["Dr. John Johnson", "Prof. Sarah Wilson"],
+  "interests": ["Machine Learning", "Computer Vision", "Natural Language Processing"]
+}

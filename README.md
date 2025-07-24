@@ -7,10 +7,11 @@ A full-stack Next.js application that integrates resume parsing and Google Schol
 - **Resume Upload & Parsing**: Upload PDF/DOCX resumes with automatic parsing
 - **Google Scholar Integration**: Fetch and analyze Google Scholar profiles
 - **Intelligent Project Suggestions**: AI-powered recommendations based on your profile
-- **Beautiful UI**: Modern, responsive design with Tailwind CSS and shadcn/ui
+- **Beautiful UI**: Modern, responsive design with Tailwind CSS
 - **State Management**: Redux Toolkit for efficient state management
 - **Security**: Input validation, rate limiting, and file upload security
-- **Testing**: Comprehensive test coverage with Jest and React Testing Library
+- **Testing**: Comprehensive test coverage with Jest, React Testing Library, and Cypress
+- **Code Quality**: ESLint + Prettier with TypeScript support
 
 ## 🛠️ Tech Stack
 
@@ -18,31 +19,31 @@ A full-stack Next.js application that integrates resume parsing and Google Schol
 
 - **Framework**: Next.js 15 with App Router
 - **State Management**: Redux Toolkit
-- **UI Components**: shadcn/ui + Tailwind CSS
+- **UI Components**: Tailwind CSS
 - **File Upload**: react-dropzone
 - **Icons**: Lucide React
 
 ### Backend
 
 - **API Routes**: Next.js API Routes
-- **Resume Parsing**: pdf-parse / mammoth.js (mocked in demo)
-- **Web Scraping**: cheerio (mocked in demo)
-- **Rate Limiting**: Custom implementation
+- **Resume Parsing**: pdf-parse (PDF) / mammoth.js (DOCX) - Full implementation
+- **Web Scraping**: cheerio for Google Scholar integration
+- **Rate Limiting**: Enterprise-grade rate limiting with security validation
 
 ### Security & Testing
 
 - **Input Validation**: Comprehensive validation for all inputs
-- **File Security**: Type and size validation for uploads
-- **Rate Limiting**: API protection against abuse
-- **Testing**: Jest + React Testing Library
-- **Linting**: ESLint + Prettier
+- **File Security**: Type and size validation for uploads (PDF/DOCX, 5MB limit)
+- **Rate Limiting**: API protection against abuse (10 requests/minute)
+- **Testing**: Jest + React Testing Library + Cypress (Complete test suite)
+- **Linting**: ESLint + Prettier with TypeScript support
 
 ## 📦 Installation
 
 1. **Clone the repository**
    \`\`\`bash
-   git clone https://github.com/your-username/scholarsync-resume-integration-your-name.git
-   cd scholarsync-resume-integration-your-name
+   git clone https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora.git
+   cd scholarsync-resume-integration-Dev-Arora
    \`\`\`
 
 2. **Install dependencies**
@@ -60,21 +61,43 @@ A full-stack Next.js application that integrates resume parsing and Google Schol
 
 ## 🧪 Testing
 
-Run the test suite:
+Run the comprehensive test suite:
 \`\`\`bash
-
 # Run all tests
-
 npm test
 
 # Run tests in watch mode
-
 npm run test:watch
 
 # Generate coverage report
-
 npm run test:coverage
+
+# Run unit tests only
+npm run test:unit
+
+# Run integration tests
+npm run test:integration
+
+# Run E2E tests with Cypress
+npm run test:e2e
+
+# Open Cypress UI
+npm run cypress:open
+
+# Run all test suites
+npm run test:all
+
+# CI pipeline (lint + typecheck + coverage)
+npm run test:ci
 \`\`\`
+
+### **Testing Framework Features**
+- **📊 Coverage Reporting**: Comprehensive code coverage with HTML reports
+- **🔄 Continuous Testing**: Watch mode for development with automatic re-runs
+- **🚀 CI/CD Ready**: Automated testing pipeline for production deployments
+- **🎯 Test Types**: Unit, Integration, Component, and End-to-End testing
+- **🛡️ Security Testing**: Input validation and rate limiting verification
+- **📱 Responsive Testing**: Cross-device compatibility testing with Cypress
 
 ## 🔒 Security Features
 
@@ -232,19 +255,18 @@ Response: Array of project suggestions
 
 ## 🐛 Known Issues & Limitations
 
-- Resume parsing is currently mocked for demo purposes
-- Google Scholar scraping is simulated (actual implementation would require cheerio)
 - Rate limiting uses in-memory storage (use Redis for production)
+- File uploads limited to 5MB (configurable for production)
 
 ## 🔮 Future Enhancements
 
-- [ ] Real PDF/DOCX parsing implementation
-- [ ] Actual Google Scholar scraping
 - [ ] User authentication and profiles
 - [ ] Project collaboration features
-- [ ] Advanced recommendation algorithms
+- [ ] Advanced recommendation algorithms using ML
 - [ ] Mobile app development
 - [ ] Integration with academic databases
+- [ ] Real-time collaboration features
+- [ ] Advanced analytics dashboard
 
 ## 📄 License
 
@@ -252,20 +274,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👥 Team
 
-- **Developer**: [Your Name]
-- **Email**: [your.email@example.com]
-- **GitHub**: [your-github-username]
+- **Developer**: Dev Arora
+- **Repository**: scholarsync-resume-integration-Dev-Arora
+- **GitHub**: Devarora13
 
-## 🙏 Acknowledgments
-
-- Next.js team for the amazing framework
-- shadcn for the beautiful UI components
-- Redux Toolkit for state management
-- All open-source contributors
 
 ---
 
-**Live Demo**: [https://scholarsync-demo.vercel.app](https://scholarsync-demo.vercel.app)
-**Repository**: [https://github.com/your-username/scholarsync-resume-integration-your-name](https://github.com/your-username/scholarsync-resume-integration-your-name)
+**Repository**: [https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora](https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora)
 
 For questions or support, please open an issue on GitHub or contact hello@researchcommons.ai

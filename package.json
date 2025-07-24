@@ -1,5 +1,5 @@
 {
-  "name": "ScholarSync",
+  "name": "scholarsync",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -16,6 +16,15 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
+    "test:unit": "jest --testPathPatterns=__tests__",
+    "test:integration": "jest --testPathPatterns=integration",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "cypress:install": "cypress install",
+    "test:e2e": "start-server-and-test dev 3000 cypress:run",
+    "test:e2e:open": "start-server-and-test dev 3000 cypress:open",
+    "test:all": "npm run test:unit && npm run test:integration && npm run test:e2e",
+    "test:ci": "npm run lint && npm run type-check && npm run test:coverage",
     "prepare": "husky"
   },
   "dependencies": {
@@ -80,14 +89,18 @@
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.4.4",
+    "@testing-library/cypress": "^10.0.3",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/jest": "^30.0.0",
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@typescript-eslint/eslint-plugin": "^8.38.0",
     "@typescript-eslint/parser": "^8.38.0",
+    "cypress": "^14.5.2",
+    "cypress-real-events": "^1.14.0",
     "eslint": "^9.31.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-import-resolver-typescript": "^4.4.4",
@@ -100,8 +113,10 @@
     "jest": "^30.0.5",
     "jest-environment-jsdom": "^30.0.5",
     "lint-staged": "^16.1.2",
+    "node-mocks-http": "^1.17.2",
     "postcss": "^8.5",
     "prettier": "^3.6.2",
+    "start-server-and-test": "^2.0.12",
     "tailwindcss": "^3.4.17",
     "typescript": "^5"
   },

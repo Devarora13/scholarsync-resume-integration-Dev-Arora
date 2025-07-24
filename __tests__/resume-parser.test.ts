@@ -1,4 +1,6 @@
 import { ResumeParser } from "@/lib/resume-parser"
+import { TextEncoder } from 'util';
+;(global as any).TextEncoder = TextEncoder
 
 // Mock the external libraries for testing
 jest.mock("pdf-parse", () => ({
@@ -8,6 +10,29 @@ jest.mock("pdf-parse", () => ({
 jest.mock("mammoth", () => ({
   extractRawText: jest.fn(),
 }))
+
+// MockFile class to fix file.arrayBuffer() issue
+class MockFile {
+  name: string
+  type: string
+  size: number
+  private _data: Uint8Array
+
+  constructor(data: string | Uint8Array, name: string, type: string) {
+    this.name = name
+    this.type = type
+    if (typeof data === "string") {
+      this._data = new TextEncoder().encode(data)
+    } else {
+      this._data = data
+    }
+    this.size = this._data.length
+  }
+
+  async arrayBuffer() {
+    return this._data.buffer
+  }
+}
 
 describe("ResumeParser", () => {
   describe("extractInformation", () => {
@@ -33,7 +58,6 @@ describe("ResumeParser", () => {
         Bachelor of Science in Computer Engineering | UC Berkeley | 2018
       `
 
-      // Access the private method through type assertion for testing
       const parser = ResumeParser as any
       const result = parser.extractInformation(mockText)
 
@@ -65,9 +89,9 @@ describe("ResumeParser", () => {
 
   describe("parseFile", () => {
     it("should reject unsupported file types", async () => {
-      const mockFile = new File(["test"], "test.txt", { type: "text/plain" })
+      const mockFile = new MockFile("test", "test.txt", "text/plain")
 
-      await expect(ResumeParser.parseFile(mockFile)).rejects.toThrow(
+      await expect(ResumeParser.parseFile(mockFile as any)).rejects.toThrow(
         "Unsupported file type. Please upload PDF or DOCX files only."
       )
     })
@@ -76,7 +100,7 @@ describe("ResumeParser", () => {
       const pdfParse = require("pdf-parse")
       pdfParse.default.mockResolvedValue({ text: "Mock PDF content\nJohn Doe\njohn@example.com" })
 
-      const mockFile = new File(["test"], "test.pdf", { type: "application/pdf" })
+      const mockFile = new MockFile("test", "test.pdf", "application/pdf")
 
       const result = await ResumeParser.parseFile(mockFile)
 
@@ -91,9 +115,11 @@ describe("ResumeParser", () => {
         value: "Mock DOCX content\nJane Smith\njane@example.com",
       })
 
-      const mockFile = new File(["test"], "test.docx", {
-        type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-      })
+      const mockFile = new MockFile(
+        "test",
+        "test.docx",
+        "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+      )
 
       const result = await ResumeParser.parseFile(mockFile)
 

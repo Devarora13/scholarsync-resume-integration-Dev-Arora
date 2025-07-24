@@ -1,0 +1,23 @@
+{
+  "name": "John Doe",
+  "email": "john.doe@example.com",
+  "phone": "(555) 123-4567",
+  "location": "New York, NY",
+  "skills": ["JavaScript", "React", "TypeScript", "Node.js"],
+  "experience": [
+    {
+      "position": "Software Engineer",
+      "company": "Tech Corp",
+      "duration": "2022 - Present",
+      "description": "Developed web applications using React and Node.js"
+    }
+  ],
+  "education": [
+    {
+      "degree": "Bachelor of Science in Computer Science",
+      "institution": "University of Technology",
+      "year": "2022",
+      "gpa": "3.8"
+    }
+  ]
+}
