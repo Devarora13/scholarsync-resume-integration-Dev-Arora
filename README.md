@@ -2,6 +2,8 @@
 
 A full-stack Next.js application that integrates resume parsing and Google Scholar profile analysis to provide personalized project suggestions based on skills, education, and research interests.
 
+🔗 **Live Demo**: [https://scholarsync-resume-integration-dev.vercel.app/](https://scholarsync-resume-integration-dev.vercel.app/)
+
 ## 🚀 Features
 
 - **Resume Upload & Parsing**: Upload PDF/DOCX resumes with automatic parsing
@@ -37,6 +39,14 @@ A full-stack Next.js application that integrates resume parsing and Google Schol
 - **Rate Limiting**: API protection against abuse (10 requests/minute)
 - **Testing**: Jest + React Testing Library + Cypress
 - **Linting**: ESLint + Prettier with TypeScript support
+
+## 🌐 Quick Start
+
+### Try the Live Application
+
+Visit the deployed application: **[https://scholarsync-resume-integration-dev.vercel.app/](https://scholarsync-resume-integration-dev.vercel.app/)**
+
+### Local Development
 
 ## 📦 Installation
 
@@ -188,6 +198,8 @@ scholarsync-resume-integration/
 ```
 
 ## 🚀 Deployment
+
+The application is currently deployed on Vercel and accessible at: **[https://scholarsync-resume-integration-dev.vercel.app/](https://scholarsync-resume-integration-dev.vercel.app/)**
 
 ### Vercel Deployment (Recommended)
 
@@ -395,4 +407,6 @@ For questions, bug reports, or feature requests:
 
 **⭐ Star this repository if you find it helpful!**
 
-**Repository**: [https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora](https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora)
+**🔗 Live Demo**: [https://scholarsync-resume-integration-dev.vercel.app/](https://scholarsync-resume-integration-dev.vercel.app/)
+
+**📂 Repository**: [https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora](https://github.com/Devarora13/scholarsync-resume-integration-Dev-Arora)
