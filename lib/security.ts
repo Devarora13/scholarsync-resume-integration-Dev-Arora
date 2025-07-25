@@ -9,7 +9,11 @@ const SECURITY_CONFIG = {
     "http://localhost:3000",
     "https://localhost:3000",
     process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  ],
+    // Add Vercel deployment domains
+    ...(process.env.VERCEL_URL ? [`https://${process.env.VERCEL_URL}`] : []),
+  ] as (string | RegExp)[],
+  // Vercel domain pattern (checked separately for better TypeScript support)
+  vercelDomainPattern: /^https:\/\/.*\.vercel\.app$/,
   maxFileSize: 5 * 1024 * 1024, // 5MB for file uploads
   allowedFileTypes: [
     "application/pdf",
@@ -64,7 +68,13 @@ export class SecurityValidator {
       return { success: true }
     }
 
+    // Check string origins
     if (SECURITY_CONFIG.allowedOrigins.includes(origin)) {
+      return { success: true }
+    }
+
+    // Check Vercel domain pattern
+    if (SECURITY_CONFIG.vercelDomainPattern.test(origin)) {
       return { success: true }
     }
 
@@ -84,10 +94,7 @@ export class SecurityValidator {
     }
 
     // Allow both JSON and multipart/form-data for file uploads
-    const allowedContentTypes = [
-      "application/json",
-      "multipart/form-data"
-    ]
+    const allowedContentTypes = ["application/json", "multipart/form-data"]
 
     if (!contentType) {
       return {
@@ -98,9 +105,7 @@ export class SecurityValidator {
     }
 
     // Check if content type matches any allowed type
-    const isValidContentType = allowedContentTypes.some(allowedType => 
-      contentType.includes(allowedType)
-    )
+    const isValidContentType = allowedContentTypes.some((allowedType) => contentType.includes(allowedType))
 
     if (!isValidContentType) {
       return {
