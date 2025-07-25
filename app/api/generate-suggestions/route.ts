@@ -28,18 +28,14 @@ function generateProjectSuggestions(resumeData: any, scholarData: any): ProjectS
   const publications = scholarData?.publications || []
   const totalCitations = scholarData?.totalCitations || 0
 
-  console.log("Skills:", skills)
-  console.log("Research interests:", researchInterests)
-  console.log("Publications count:", publications.length)
+  // console.log("Skills:", skills)
+  // console.log("Research interests:", researchInterests)
+  // console.log("Publications count:", publications.length)
 
   // Skill analysis
   const techSkills = analyzeSkills(skills)
   const academicLevel = determineAcademicLevel(education, experience, publications.length, totalCitations)
   const researchFocus = analyzeResearchFocus(researchInterests, publications)
-
-  console.log("Tech skills analysis:", techSkills)
-  console.log("Academic level:", academicLevel)
-  console.log("Research focus:", researchFocus)
 
   // Generate suggestions based on different categories
 
@@ -83,10 +79,10 @@ function generateProjectSuggestions(resumeData: any, scholarData: any): ProjectS
   const finalSuggestions = scoredSuggestions.sort((a, b) => b.matchScore - a.matchScore).slice(0, 12) // Limit to top 12 suggestions
 
   console.log("Generated suggestions:", finalSuggestions.length)
-  console.log(
-    "Top 3 suggestions:",
-    finalSuggestions.slice(0, 3).map((s) => ({ title: s.title, score: s.matchScore }))
-  )
+  // console.log(
+  //   "Top 3 suggestions:",
+  //   finalSuggestions.slice(0, 3).map((s) => ({ title: s.title, score: s.matchScore }))
+  // )
 
   return finalSuggestions
 }

@@ -120,34 +120,25 @@ export class GoogleScholarScraper {
    * Extract profile data from the parsed HTML
    */
   private static extractProfileData($: cheerio.CheerioAPI): ScholarData {
-    console.log("Starting profile data extraction...")
-
     // Extract name
     const name = $("#gsc_prf_in").text().trim() || "Name not found"
-    console.log("Extracted name:", name)
 
     // Extract affiliation
     const affiliation = $(".gsc_prf_il").first().text().trim() || "Affiliation not found"
-    console.log("Extracted affiliation:", affiliation)
 
     // Extract email (if public)
     const email = $(".gsc_prf_il").eq(1).text().trim()
     const emailMatch = email.match(/verified email at (.+)/i)
     const extractedEmail = emailMatch ? emailMatch[1] : undefined
-    console.log("Extracted email:", extractedEmail || "No public email found")
 
     // Extract citation metrics
     const citationStats = this.extractCitationStats($)
-    console.log("Citation stats:", citationStats)
 
     // Extract research interests
     const researchInterests = this.extractResearchInterests($)
-    console.log("Research interests:", researchInterests)
 
     // Extract publications
     const publications = this.extractPublications($)
-    console.log("Publications found:", publications.length)
-    console.log("First few publications:", publications.slice(0, 3))
 
     const profileData = {
       name,
@@ -159,8 +150,6 @@ export class GoogleScholarScraper {
       researchInterests,
       publications,
     }
-
-    console.log("Complete profile data extracted:", profileData)
 
     return profileData
   }
@@ -196,8 +185,6 @@ export class GoogleScholarScraper {
           const valueText = $(cells[1]).text().replace(/,/g, "")
           const value = parseInt(valueText) || 0
 
-          console.log(`Row ${index}: "${label}" = "${valueText}" (parsed: ${value})`)
-
           if (label.includes("citations")) {
             stats.totalCitations = value
           } else if (label.includes("h-index")) {
@@ -207,8 +194,6 @@ export class GoogleScholarScraper {
           }
         }
       })
-
-      console.log("Final citation stats:", stats)
     } catch (error) {
       console.error("Error extracting citation stats:", error)
     }
@@ -245,7 +230,6 @@ export class GoogleScholarScraper {
       console.log("Extracting publications...")
 
       const publicationRows = $(".gsc_a_tr")
-      console.log("Publication rows found:", publicationRows.length)
 
       publicationRows.each((index, row) => {
         if (index >= 20) return false // Limit to 20 publications
@@ -297,18 +281,8 @@ export class GoogleScholarScraper {
           citations,
         }
 
-        console.log(`Publication ${index}:`, {
-          title: title.substring(0, 50) + (title.length > 50 ? "..." : ""),
-          authors: authors.substring(0, 30) + (authors.length > 30 ? "..." : ""),
-          journal: journal.substring(0, 30) + (journal.length > 30 ? "..." : ""),
-          year,
-          citations,
-        })
-
         publications.push(publication)
       })
-
-      console.log("Total publications extracted:", publications.length)
     } catch (error) {
       console.error("Error extracting publications:", error)
     }
