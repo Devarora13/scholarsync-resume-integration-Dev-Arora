@@ -140,7 +140,7 @@ describe('Header Component', () => {
 ```typescript
 // __tests__/integration/api-parse-resume.test.ts
 import { createMocks } from 'node-mocks-http'
-import handler from '@/app/api/parse-resume/route'
+import {handler} from '@/app/api/parse-resume/route'
 
 describe('/api/parse-resume', () => {
   it('should reject non-POST requests', async () => {

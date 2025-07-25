@@ -75,12 +75,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate file name
-    if (file.name.length > 255 || !/^[a-zA-Z0-9\-_.\s]+$/.test(file.name)) {
+    // Validate file name - Allow common filename characters but block dangerous ones
+    const dangerousChars = /[<>:"|\\*?\/\x00-\x1f]/
+    if (file.name.length > 255 || dangerousChars.test(file.name)) {
       SecurityValidator.recordFailure(request, "Invalid filename")
       return NextResponse.json(
         {
-          error: "Invalid filename. Use only alphanumeric characters, hyphens, underscores, and dots.",
+          error: "Invalid filename. Please avoid special characters like < > : \" | \\ * ? /",
         },
         { status: 400 }
       )
@@ -115,7 +116,7 @@ export async function POST(request: NextRequest) {
   }
 }
 
-export default async function handler(request: NextRequest) {
+export async function handler(request: NextRequest) {
   switch (request.method) {
     case 'POST':
       return POST(request)

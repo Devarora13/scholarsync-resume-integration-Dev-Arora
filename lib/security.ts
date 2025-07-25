@@ -35,7 +35,7 @@ const securityStore = new Map<
 const VALIDATION_PATTERNS = {
   email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
   url: /^https?:\/\/[^\s<>"{}|\\^`[\]]+$/,
-  filename: /^[a-zA-Z0-9\-_.\s]+$/,
+  filename: /^[^<>:"|\\*?\/\x00-\x1f]+$/, // Allow most chars but block dangerous ones
   scholarUrl: /^https:\/\/scholar\.google\.[a-z]{2,}\/citations\?user=[a-zA-Z0-9\-_]+/,
 }
 
@@ -83,10 +83,29 @@ export class SecurityValidator {
       return { success: true }
     }
 
-    if (!contentType || !contentType.includes("application/json")) {
+    // Allow both JSON and multipart/form-data for file uploads
+    const allowedContentTypes = [
+      "application/json",
+      "multipart/form-data"
+    ]
+
+    if (!contentType) {
       return {
         success: false,
-        error: "Invalid content type. Expected application/json",
+        error: "Content-Type header is required",
+        code: "MISSING_CONTENT_TYPE",
+      }
+    }
+
+    // Check if content type matches any allowed type
+    const isValidContentType = allowedContentTypes.some(allowedType => 
+      contentType.includes(allowedType)
+    )
+
+    if (!isValidContentType) {
+      return {
+        success: false,
+        error: "Invalid content type. Expected application/json or multipart/form-data",
         code: "INVALID_CONTENT_TYPE",
       }
     }
