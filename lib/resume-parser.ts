@@ -22,7 +22,9 @@ interface ParsedResumeData {
 
 export class ResumeParser {
   private static readonly emailRegex = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b/g
-  private static readonly phoneRegex = /(\+?1?[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})/g
+  // Comprehensive international phone regex
+  private static readonly phoneRegex =
+    /(?:\+?[1-9]\d{0,3}[-.\s]?)?(?:\(?[0-9]{1,4}\)?[-.\s]?)?[0-9]{3,4}[-.\s]?[0-9]{3,5}/g
   private static readonly skillsKeywords = [
     "JavaScript",
     "TypeScript",
@@ -202,11 +204,21 @@ export class ResumeParser {
   }
 
   /**
-   * Finds the first matching phone pattern in string
+   * Finds the best matching phone pattern in string
    */
   private static extractPhone(text: string): string | undefined {
     const matches = text.match(this.phoneRegex)
-    return matches ? matches[0].trim() : undefined
+    if (!matches) return undefined
+
+    // Find the longest match (likely the most complete phone number)
+    let bestMatch = matches[0]
+    for (const match of matches) {
+      if (match.length > bestMatch.length) {
+        bestMatch = match
+      }
+    }
+
+    return bestMatch.trim()
   }
 
   /**
