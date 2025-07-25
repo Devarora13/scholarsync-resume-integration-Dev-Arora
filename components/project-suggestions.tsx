@@ -275,20 +275,6 @@ export function ProjectSuggestions() {
                   </div>
                 </div>
               )}
-
-              {/* Action Buttons */}
-              <div className="flex gap-2 pt-2">
-                <Button
-                  size="sm"
-                  className="flex-1 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                >
-                  Start Project
-                </Button>
-                <Button variant="outline" size="sm" className="gap-2 bg-transparent">
-                  <ExternalLink className="w-4 h-4" />
-                  Learn More
-                </Button>
-              </div>
             </CardContent>
           </Card>
         ))}
